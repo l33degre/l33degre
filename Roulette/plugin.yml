@@ -1,0 +1,13 @@
+name: Roulette
+main: Roulette\Main
+version: 1.0.0
+api: 5.0.0
+depend: [InvMenu]
+commands:
+  adminroulette:
+    description: Spawn a roulette diamond block in front of you
+    usage: /adminroulette
+    permission: roulette.admin
+permissions:
+  roulette.admin:
+    default: op

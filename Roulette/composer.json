@@ -1,0 +1,10 @@
+{
+  "name": "cursor/roulette",
+  "type": "project",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Roulette\\": "src/Roulette/"
+    }
+  }
+}
