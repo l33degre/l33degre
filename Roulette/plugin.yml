@@ -1,13 +1,25 @@
 name: Roulette
 main: Roulette\Main
-version: 1.0.0
+version: 1.1.0
 api: 5.0.0
-depend: [InvMenu]
+depend: [InvMenu, FormAPI]
 commands:
   adminroulette:
     description: Spawn a roulette diamond block in front of you
     usage: /adminroulette
     permission: roulette.admin
+  rg:
+    description: Ouvre le menu de protection des régions
+    usage: /rg
+    permission: rg.use
+  rgbypass:
+    description: Active/désactive le bypass des protections de régions
+    usage: /rgbypass
+    permission: rg.bypass
 permissions:
   roulette.admin:
+    default: op
+  rg.use:
+    default: true
+  rg.bypass:
     default: op
