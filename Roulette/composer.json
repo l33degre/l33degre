@@ -1,10 +1,10 @@
 {
-  "name": "cursor/roulette",
+  "name": "cursor/rank-manager",
   "type": "project",
   "require": {},
   "autoload": {
     "psr-4": {
-      "Roulette\\": "src/Roulette/"
+      "Rank\\": "src/Rank/"
     }
   }
 }
