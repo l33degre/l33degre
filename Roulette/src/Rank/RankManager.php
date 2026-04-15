@@ -37,7 +37,10 @@ final class RankManager
     public function __construct(PluginBase $plugin)
     {
         $this->plugin = $plugin;
-        @mkdir($plugin->getDataFolder());
+        $dataFolder = $plugin->getDataFolder();
+        if(!is_dir($dataFolder) && !mkdir($dataFolder, 0755, true)){
+            $plugin->getLogger()->error('Failed to create data folder: ' . $dataFolder);
+        }
 
         $this->ranksConfig = new Config($plugin->getDataFolder() . 'ranks.yml', Config::YAML, [
             'default' => 'joueur',
@@ -244,6 +247,34 @@ final class RankManager
         $formatted = str_replace(['{name}', '{rank}'], [$player->getName(), $rank], $render);
         $player->setNameTag($formatted);
         $player->setDisplayName($formatted);
+    }
+
+    private const MAX_NAME_LENGTH = 32;
+    private const MAX_RANK_LENGTH = 32;
+    private const MAX_PERMISSION_LENGTH = 128;
+
+    /**
+     * Validate a rank name: alphanumeric, underscores, hyphens only.
+     */
+    public static function isValidRankName(string $rank): bool
+    {
+        return $rank !== '' && strlen($rank) <= self::MAX_RANK_LENGTH && preg_match('/^[a-z0-9_\-]+$/', $rank) === 1;
+    }
+
+    /**
+     * Validate a player name: alphanumeric, underscores, spaces (Bedrock names).
+     */
+    public static function isValidPlayerName(string $name): bool
+    {
+        return $name !== '' && strlen($name) <= self::MAX_NAME_LENGTH && preg_match('/^[a-zA-Z0-9_ ]+$/', $name) === 1;
+    }
+
+    /**
+     * Validate a permission string: dotted identifiers only.
+     */
+    public static function isValidPermission(string $perm): bool
+    {
+        return $perm !== '' && strlen($perm) <= self::MAX_PERMISSION_LENGTH && preg_match('/^[a-zA-Z0-9_.\-]+$/', $perm) === 1;
     }
 
     public function tickExpirements(): void
