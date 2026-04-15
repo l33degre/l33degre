@@ -82,6 +82,10 @@ final class Main extends PluginBase implements Listener
                     $sender->sendMessage(TF::YELLOW . 'Usage: /rank create <grade>');
                     return true;
                 }
+                if(!RankManager::isValidRankName($rank)){
+                    $sender->sendMessage(TF::RED . 'Nom de grade invalide (alphanumérique, _, - uniquement, max 32 caractères).');
+                    return true;
+                }
                 if($this->rankManager->createRank($rank)){
                     $sender->sendMessage(TF::GREEN . 'Grade créé: ' . $rank);
                 }else{
@@ -99,6 +103,10 @@ final class Main extends PluginBase implements Listener
                     $sender->sendMessage(TF::YELLOW . 'Usage: /rank set <grade> <joueur>');
                     return true;
                 }
+                if(!RankManager::isValidPlayerName($player)){
+                    $sender->sendMessage(TF::RED . 'Nom de joueur invalide (alphanumérique, _, espace uniquement, max 32 caractères).');
+                    return true;
+                }
                 if(!$this->rankManager->rankExists($rank)){
                     $sender->sendMessage(TF::RED . 'Ce grade n\'existe pas.');
                     return true;
@@ -114,6 +122,10 @@ final class Main extends PluginBase implements Listener
                 $perm = $args[2] ?? '';
                 if($rank === '' || $perm === ''){
                     $sender->sendMessage(TF::YELLOW . 'Usage: /rank addperm <grade> <permission>');
+                    return true;
+                }
+                if(!RankManager::isValidPermission($perm)){
+                    $sender->sendMessage(TF::RED . 'Permission invalide (alphanumérique, points, _, - uniquement, max 128 caractères).');
                     return true;
                 }
                 if(!$this->rankManager->rankExists($rank)){
@@ -148,6 +160,10 @@ final class Main extends PluginBase implements Listener
             $sender->sendMessage(TF::YELLOW . 'Usage: /ranktime set <grade> <joueur> <durée ex: 1d2h30m>');
             return true;
         }
+        if(!RankManager::isValidPlayerName($player)){
+            $sender->sendMessage(TF::RED . 'Nom de joueur invalide (alphanumérique, _, espace uniquement, max 32 caractères).');
+            return true;
+        }
         if(!$this->rankManager->rankExists($rank)){
             $sender->sendMessage(TF::RED . 'Ce grade n\'existe pas.');
             return true;
@@ -171,6 +187,10 @@ final class Main extends PluginBase implements Listener
         $player = $args[0] ?? '';
         if($player === ''){
             $sender->sendMessage(TF::YELLOW . 'Usage: /rankremove <joueur>');
+            return true;
+        }
+        if(!RankManager::isValidPlayerName($player)){
+            $sender->sendMessage(TF::RED . 'Nom de joueur invalide (alphanumérique, _, espace uniquement, max 32 caractères).');
             return true;
         }
         $this->rankManager->removePlayerRank($player);
